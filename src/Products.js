@@ -14,12 +14,10 @@ const Products = ({navigation}) => {
     const [products, setProducts] = useState([]);
 
     const getProductsFromApi = () => {
-        return fetch('http://localhost:3000/api/products.json')
+        fetch('http://3.231.53.11/api/products')
             .then((response) => response.json())
             .then((json) => {
-            console.log(json);
             setProducts(json);
-            return true;
         })
         .catch((error) => {
             console.error(error);
@@ -27,40 +25,42 @@ const Products = ({navigation}) => {
     };
 
     function renderProducts(){
-        // getProductsFromApi();
-
-        var productsList = [
-            {
-              "id": 3,
-              "name": "calca",
-              "description": "teste",
-              "value": 1.9,
-              "color": "azul",
-              "created_at": "2022-11-20T21:06:20.144Z",
-              "updated_at": "2022-11-20T21:06:20.144Z"
-            },
-            {
-              "id": 4,
-              "name": "camisa",
-              "description": "xablau",
-              "value": 20,
-              "color": "amarelo",
-              "created_at": "2022-11-20T21:06:20.144Z",
-              "updated_at": "2022-11-20T21:06:20.144Z"
-            }
-        ]
+        getProductsFromApi();
+        const productsList = products || [];
+        // var productsList = [
+        //     {
+        //       "id": 3,
+        //       "name": "Calca",
+        //       "description": "teste",
+        //       "value": 150,
+        //       "color": "azul",
+        //       "created_at": "2022-11-20T21:06:20.144Z",
+        //       "updated_at": "2022-11-20T21:06:20.144Z"
+        //     },
+        //     {
+        //       "id": 4,
+        //       "name": "Camisa",
+        //       "description": "xablau",
+        //       "value": 20,
+        //       "color": "amarelo",
+        //       "created_at": "2022-11-20T21:06:20.144Z",
+        //       "updated_at": "2022-11-20T21:06:20.144Z"
+        //     }
+        // ]
         return (
           <View>
             {productsList.map((product) => {
               return (
-                <View key={product.id}>
+                <View key={product.id} style={styles.productContainer}>
                   <TouchableOpacity onPress={() => {console.log('press product')}}>
-                    <View style={styles.view1}>
-                      <Text style={styles.textImg5}>{product.name}</Text>
-                      <Text style={styles.textSub}>
-                        {product.description}
-                      </Text>
-                      <Text> R$ {product.value} </Text>  
+                    <View style={styles.view1}>                     
+                      <Text style={styles.textInicial}>{product.name}</Text>
+                      <Text style={styles.textInicial}> R$ {product.value} </Text>  
+                    </View>
+                    <View>
+                        <Text style={styles.textSub}>
+                            {product.description}
+                        </Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -70,20 +70,13 @@ const Products = ({navigation}) => {
         )
       }
 
-    function onPressLearnMore(){
-        console.log('adiciona novo')
-    }
-
     return (
         <View style={styles.view3}>
-            <Button
-            onPress={() => console.log('teste')}
-            title="Teste"
-            color="#000000"
-            />
             <View style={styles.view}>
                 <Button
-                    onPress={onPressLearnMore}
+                    onPress={() =>
+                        navigation.navigate('Novo Produto')
+                      }
                     title="Novo Produto"
                     color="#841584"
                 />
@@ -95,29 +88,35 @@ const Products = ({navigation}) => {
 
 const styles = StyleSheet.create({
     textInicial: {
-     fontSize: 40,
-     fontFamily: 'Italianno',
-     padding: 20
+     fontSize: 25,
+     fontWeight: 'bold',
+     fontFamily: 'Arial',
+     padding: 20,
+    },
+    productContainer: {
+        borderRadius: 5,
+        borderWidth: 2,
+        marginTop: 5 
     },
     textSub: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
+      fontSize: 20,
+      paddingHorizontal:40
     },
     view: {
       backgroundColor: 'white',
       height: 1000,
-      borderRadius: 15
+      borderRadius: 15,
+      flex: 1,
+      width: '100%',
     },
     view3: {
-      backgroundColor: '#305887',
+      backgroundColor: '#BCBCBC',
       height: 1020,
       padding: 20
     },
     view1: {
-     marginLeft: 20,
+     marginLeft: 10,
      flexDirection: 'row',
-     paddingTop: 30,
     },
     button: {
       alignItems: "center",
