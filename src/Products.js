@@ -14,39 +14,26 @@ const Products = ({navigation}) => {
     const [products, setProducts] = useState([]);
 
     const getProductsFromApi = () => {
-        fetch('http://3.231.53.11/api/products')
-            .then((response) => response.json())
-            .then((json) => {
-            setProducts(json);
+      return fetch('https://fbad-2804-431-c7d8-120c-e0dd-539a-2df9-922e.sa.ngrok.io/api/products')
+        .then((response) => response.json())
+        .then((json) => {
+          setProducts(json);
+          return json;
         })
         .catch((error) => {
-            console.error(error);
+          console.error(error);
         });
     };
+
+    const deleteProduct = (productId) => {
+      fetch(`https://fbad-2804-431-c7d8-120c-e0dd-539a-2df9-922e.sa.ngrok.io/api/products/${productId}`, {
+        method: 'DELETE',
+      });
+    }
 
     function renderProducts(){
         getProductsFromApi();
         const productsList = products || [];
-        // var productsList = [
-        //     {
-        //       "id": 3,
-        //       "name": "Calca",
-        //       "description": "teste",
-        //       "value": 150,
-        //       "color": "azul",
-        //       "created_at": "2022-11-20T21:06:20.144Z",
-        //       "updated_at": "2022-11-20T21:06:20.144Z"
-        //     },
-        //     {
-        //       "id": 4,
-        //       "name": "Camisa",
-        //       "description": "xablau",
-        //       "value": 20,
-        //       "color": "amarelo",
-        //       "created_at": "2022-11-20T21:06:20.144Z",
-        //       "updated_at": "2022-11-20T21:06:20.144Z"
-        //     }
-        // ]
         return (
           <View>
             {productsList.map((product) => {
@@ -62,7 +49,19 @@ const Products = ({navigation}) => {
                             {product.description}
                         </Text>
                     </View>
+                    <Text style={styles.textSub}>
+                      {product.color}
+                    </Text>
                   </TouchableOpacity>
+                  <View>
+                  <Button
+                    onPress={() => {
+                      deleteProduct(product.id)
+                    }}
+                    title="Deletar produto"
+                    color="#790909"
+                  />
+                  </View>
                 </View>
               )
             })}

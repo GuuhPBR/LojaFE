@@ -30,7 +30,7 @@ const NewProduct = ({navigation}) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         };
-        fetch('http://3.231.53.11/api/products', requestOptions)
+        fetch('https://fbad-2804-431-c7d8-120c-e0dd-539a-2df9-922e.sa.ngrok.io/api/products', requestOptions)
             .then(response => {
                 console.log(response);
                 response.json()
